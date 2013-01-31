@@ -61,16 +61,10 @@ let g:undotree_SetFocusWhenToggle=1
 Bundle 'myusuf3/numbers.vim'
 
 Bundle 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_auto_colors = 1
 " indent_guides
-if has('gui_running')
-  let g:indent_guides_auto_colors = 1
-else
-  " For some colorscheme, autocolor will not work, like 'desert', 'ir_black'.
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#212121   ctermbg=3
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=4
-endif
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
+"let g:indent_guides_start_level = 2
+""let g:indent_guides_guide_size = 1
 let g:indent_guides_enable_on_vim_startup = 1
 
 Bundle 'vim-scripts/restore_view.vim'
