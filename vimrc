@@ -22,7 +22,7 @@ if has("gui_gtk2")
 else
   set guifont=Cousine\ for\ Powerline:h13
 endif
-if has("gui_running")
+if has("gui_macvim")
   set transparency=10
 endif
 set guioptions-=T " turns off toolbar
