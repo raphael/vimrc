@@ -9,18 +9,19 @@ filetype off
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
+" So mapping in bundles file are set correctly
+let mapleader=","
+
 " Bundles
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-endif
+source ~/.vimrc.bundles
 
 " Appearance
 set background=dark
 colorscheme jellybeans
 if has("gui_gtk2")
-  set guifont=Cousine\ for\ Powerline\ 11
+  set guifont=Envy\ Code\ R\ for\ Powerline\ 12
 else
-  set guifont=Cousine\ for\ Powerline:h13
+  set guifont=Envy\ Code\ R\ for\ Powerline:h13
 endif
 if has("gui_macvim")
   set transparency=10
@@ -39,7 +40,6 @@ endif
 " Editor behavior
 set smartindent
 set backupdir=~/.vimswaps,/tmp
-let mapleader=","
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=1000 " keep 1000 lines of command line history
 set ruler      " show the cursor position all the time
@@ -72,39 +72,12 @@ set autoindent
 set expandtab " Use spaces instead of tabs
 set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
 
-if has('cmdline_info')
-  set ruler                   " Show the ruler
-  set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
-  set showcmd                 " Show partial commands in status line and
-    " Selected characters/lines in visual mode
-endif
-
 " Search
 set incsearch  " do incremental searching
-set ignorecase " Case insensitive search
 set smartcase  " Case sensitive when uc present
-
-" Status bar
-if has('statusline')
-  set laststatus=2
-
-  " Broken down into easily includeable segments
-  set statusline=%<%f\                     " Filename
-  set statusline+=%-3.3n\                  " buffer number
-  set statusline+=%w%h%m%r                 " Options
-  set statusline+=%{fugitive#statusline()} " Git Hotness
-  set statusline+=\ [%{&ff}/%Y]            " Filetype
-  set statusline+=\ [%{getcwd()}]          " Current dir
-  set statusline+=%=                       " Right aligned
-  set statusline+=0x%-8B                   " character value
-  set statusline+=%-14.(%l,%c%V%)\ %p%%    " file nav info
-endif
 
 " Files to be ignored
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-
-" Highlight spaces in ruby
-let ruby_space_errors=1
 
 " Enable file type detection.
 " Use the default filetype settings, so that mail gets 'tw' set to 72,
@@ -113,12 +86,10 @@ let ruby_space_errors=1
 filetype plugin indent on
 
 " Do not replace tabs with spaces for languages that care
-autocmd FileType make     set noexpandtab
-autocmd FileType python   set noexpandtab
 autocmd FileType javascript set dictionary+=$HOME/.vim/dict/node.dict
 
 " Remove trailing spaces
-autocmd FileType c,cpp,java,php,javascript,python,twig,xml,yml autocmd BufWritePre <buffer> call StripTrailingWhitespace()
+autocmd FileType c,cpp,java,php,javascript,python,twig,xml,yml,ruby autocmd BufWritePre <buffer> call StripTrailingWhitespace()
 
 " Custom extensions
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
@@ -129,14 +100,25 @@ autocmd BufRead *\.txt setlocal formatoptions=l
 autocmd BufRead *\.txt setlocal lbr
 autocmd BufRead *\.txt map j gj
 autocmd BufRead *\.txt map k gk
-autocmd BufRead *\.txt setlocal smartindent
 autocmd BufRead *\.txt setlocal spell spelllang=en_us
 
-" Automatically update copyright notice with current year
-autocmd BufWritePre *
-            \ if &modified |
-            \   exe "g#\\cCopyright \(c\) \\(".strftime("%Y")."\\)\\@![0-9]\\{4\\}\\(-".strftime("%Y")."\\)\\@!#s#\\([0-9]\\{4\\}\\)\\(-[0-9]\\{4\\}\\)\\?#\\1-".strftime("%Y") |
-            \ endif
+" Use tabs in GO
+autocmd Filetype go set softtabstop=4
+autocmd Filetype go set shiftwidth=4
+autocmd Filetype go set tabstop=4
+autocmd Filetype go set noexpandtab
+
+" Auto-completion
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+autocmd FileType ruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+autocmd FileType ruby let g:rubycomplete_classes_in_global=1
+autocmd FileType html,markdown,xml setlocal omnifunc=htmlcomplete#CompleteTags
 
 " For all text files set 'textwidth' to 78 characters.
 autocmd FileType text setlocal textwidth=78
@@ -145,9 +127,9 @@ autocmd FileType text setlocal textwidth=78
 " Don't do it when the position is invalid or when inside an event handler
 " (happens when dropping a file on gvim).
 autocmd BufReadPost *
-            \ if line("'\"") > 0 && line("'\"") <= line("$") |
-            \   exe "normal g`\"" |
-            \ endif
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal g`\"" |
+  \ endif
 
 autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
 
@@ -155,7 +137,7 @@ autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:>
 autocmd BufNewFile,BufReadPost *.bundle set filetype=vim
 
 
-" Key (re)Mappings
+" Key Mappings
 map Q gq " Don't use Ex mode, use Q for formatting
 map <leader>t :CtrlP<CR>
 map <leader>b :CtrlPBuffer<CR>
@@ -190,17 +172,10 @@ nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<C
 
 " Force saving when needing to sudo first"
 cnoreabbrev <expr> w!!
-                \((getcmdtype() == ':' && getcmdline() == 'w!!')
-                \?('!sudo tee % >/dev/null'):('w!!'))
+  \((getcmdtype() == ':' && getcmdline() == 'w!!')
+  \?('!sudo tee % >/dev/null'):('w!!'))
 
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-
 " Strip whitespace
 function! StripTrailingWhitespace()
   " Preparation: save last search, and cursor position.

@@ -44,6 +44,10 @@ let g:ctrlp_user_command = {
 	\ }
 
 Bundle 'vim-scripts/sessionman.vim'
+nmap <leader>ss :SessionSave<CR>
+nmap <leader>so :SessionOpenLast<CR>
+nmap <leader>sl :SessionList<CR>
+
 Bundle 'matchit.zip'
 
 Bundle 'Lokaltog/powerline'
@@ -61,18 +65,61 @@ let g:undotree_SetFocusWhenToggle=1
 Bundle 'myusuf3/numbers.vim'
 
 Bundle 'nathanaelkane/vim-indent-guides'
-let g:indent_guides_auto_colors = 1
-" indent_guides
-"let g:indent_guides_start_level = 2
-""let g:indent_guides_guide_size = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
 let g:indent_guides_enable_on_vim_startup = 1
+if has("gui_running")
+  let g:indent_guides_auto_colors = 1
+else
+  " For some colorscheme, autocolor will not work, like 'desert', 'ir_black'.
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#212121 ctermbg=10
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=8
+endif
 
 Bundle 'vim-scripts/restore_view.vim'
 Bundle 'tpope/vim-abolish.git'
 
-" Programming
+" Syntax checking
 Bundle 'scrooloose/syntastic'
 
+" Commenting
+Bundle 'scrooloose/nerdcommenter'
+
+" Auto-completion
+Bundle 'Shougo/neocomplcache'
+" Launches neocomplcache automatically on vim startup.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underscore completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Sets minimum char length of syntax keyword.
+let g:neocomplcache_min_syntax_length = 3
+" buffer file name pattern that locks neocomplcache. e.g. ku.vim or fuzzyfinder 
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+" SuperTab like snippets behavior.
+imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+
+" Git
 Bundle 'tpope/vim-fugitive'
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -86,57 +133,51 @@ Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
 let g:gist_detect_filetype = 1
 
-Bundle 'scrooloose/nerdcommenter'
 Bundle 'majutsushi/tagbar'
-
-" Snippets & AutoComplete
-Bundle 'Shougo/neocomplcache'
-let g:acp_enableAtStartup = 0
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_enable_auto_delimiter = 1
-let g:neocomplcache_max_list = 15
-let g:neocomplcache_force_overwrite_completefunc = 1
-let g:neocomplcache_keyword_patterns = {}
-let g:neocomplcache_keyword_patterns._ = '\h\w*'
-inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-l> neocomplcache#complete_common_string()
-inoremap <expr><CR> neocomplcache#complete_common_string()
-" <TAB>: completion
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
-" <CR>: close popup
-" <s-CR>: close popup and save indent
-inoremap <expr><s-CR> pumvisible() ? neocomplcache#close_popup()"\<CR>" : "\<CR>"
-inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-" <C-h>, <BS>: close popup and delete backword char
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-let g:neocomplcache_omni_patterns = {}
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
-
-Bundle 'Shougo/neosnippet'
-imap <silent><expr><TAB> neosnippet#expandable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : (pumvisible() ?
-            \ "\<C-e>" : "\<TAB>")
-smap <TAB> <Right><Plug>(neosnippet_jump_or_expand)
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" For snippet_complete marker
-if has('conceal')
-  set conceallevel=2 concealcursor=i
+" GO support (https://github.com/jstemmer/gotags)
+let g:tagbar_type_go = {
+  \ 'ctagstype' : 'go',
+  \ 'kinds'     : [
+    \ 'p:package',
+    \ 'i:imports:1',
+    \ 'c:constants',
+    \ 'v:variables',
+    \ 't:types',
+    \ 'n:interfaces',
+    \ 'w:fields',
+    \ 'e:embedded',
+    \ 'm:methods',
+    \ 'r:constructor',
+    \ 'f:functions'
+  \ ],
+  \ 'sro' : '.',
+  \ 'kind2scope' : {
+    \ 't' : 'ctype',
+    \ 'n' : 'ntype'
+  \ },
+  \ 'scope2kind' : {
+    \ 'ctype' : 't',
+    \ 'ntype' : 'n'
+  \ },
+  \ 'ctagsbin'  : 'gotags',
+  \ 'ctagsargs' : '-sort -silent'
+\ }
+" CoffeeScript support https://github.com/lukaszkorecki/CoffeeTags
+if executable('coffeetags')
+  let g:tagbar_type_coffee = {
+    \ 'ctagsbin' : 'coffeetags',
+    \ 'ctagsargs' : '',
+    \ 'kinds' : [
+    \ 'f:functions',
+    \ 'o:object',
+    \ ],
+    \ 'sro' : ".",
+    \ 'kind2scope' : {
+    \ 'f' : 'object',
+    \ 'o' : 'object',
+    \ }
+  \ }
 endif
-
-Bundle 'honza/snipmate-snippets'
-" Use honza's snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
-
 
 " Pick either python-mode or pyflakes & pydoc
 Bundle 'klen/python-mode'
