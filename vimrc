@@ -30,6 +30,14 @@ set guioptions-=T " turns off toolbar
 set vb " turns off visual bell
 set noerrorbells " don't make noise
 
+" Prevent slow scrolling of long lines
+set synmaxcol=200
+
+" Speed up vim
+set ttyfast
+set ttyscroll=3
+set lazyredraw " to avoid scrolling problems
+
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
@@ -55,6 +63,7 @@ if has('persistent_undo')
   set undofile         " Persistent undo is nice ...
   set undolevels=1000  " Maximum number of changes that can be undone
   set undoreload=10000 " Maximum number lines to save for undo on a buffer reload
+  set undodir=~/.vim/undo//
 endif
 set showmode   " Display the current mode
 set cursorline " Highlight current line
@@ -62,6 +71,16 @@ set list
 set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 set mouse=a    " Automatically enable mouse usage
 set mousehide  " Hide the mouse cursor while typing
+
+" Save backups to a less annoying place than the current directory.
+set backupdir=~/.vim/backup//
+set backup
+
+" Save swp files to a less annoying place than the current directory.
+set directory=~/.vim/swap//
+
+" Create the directories if needed
+silent !mkdir -p ~/.vim/swap ~/.vim/backup ~/.vim/undo
 
 " Formatting
 set nowrap " Do not wrap long lines

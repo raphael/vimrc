@@ -18,6 +18,12 @@ elseif executable('ack')
   Bundle 'mileszs/ack.vim'
 endif
 
+" Status line
+"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+"Bundle 'Lokaltog/powerline'
+source /usr/local/Cellar/git/1.7.9/lib/Python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
+""python from powerline.bindings.vim import powerline; powerline()
+
 " General
 Bundle 'scrooloose/nerdtree'
 let NERDTreeShowBookmarks=0
@@ -50,9 +56,6 @@ nmap <leader>sl :SessionList<CR>
 
 Bundle 'matchit.zip'
 
-Bundle 'Lokaltog/powerline'
-python from powerline.bindings.vim import source_plugin; source_plugin()
-
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'godlygeek/csapprox'
 Bundle 'jistr/vim-nerdtree-tabs'
@@ -63,19 +66,7 @@ nnoremap <Leader>u :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1
 
 Bundle 'myusuf3/numbers.vim'
-
-Bundle 'nathanaelkane/vim-indent-guides'
-let g:indent_guides_start_level = 2
-let g:indent_guides_guide_size = 1
-let g:indent_guides_enable_on_vim_startup = 1
-if has("gui_running")
-  let g:indent_guides_auto_colors = 1
-else
-  " For some colorscheme, autocolor will not work, like 'desert', 'ir_black'.
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd guibg=#212121 ctermbg=10
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#404040 ctermbg=8
-endif
-
+Bundle 'tpope/vim-repeat'
 Bundle 'vim-scripts/restore_view.vim'
 Bundle 'tpope/vim-abolish.git'
 
