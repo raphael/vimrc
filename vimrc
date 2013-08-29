@@ -16,7 +16,6 @@ let mapleader=","
 source ~/.vimrc.bundles
 
 " Appearance
-set background=dark
 colorscheme jellybeans
 if has("gui_gtk2")
   set guifont=Envy\ Code\ R\ for\ Powerline\ 12
@@ -72,6 +71,9 @@ set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 set mouse=a    " Automatically enable mouse usage
 set mousehide  " Hide the mouse cursor while typing
 
+" Show vertical bar after 120 characters
+set colorcolumn=120
+
 " Save backups to a less annoying place than the current directory.
 set backupdir=~/.vim/backup//
 set backup
@@ -96,7 +98,7 @@ set incsearch  " do incremental searching
 set smartcase  " Case sensitive when uc present
 
 " Files to be ignored
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,.idea/*,.idea,*/.idea,*/.idea/*
 
 " Enable file type detection.
 " Use the default filetype settings, so that mail gets 'tw' set to 72,
@@ -165,6 +167,28 @@ map <leader>f :execute 'NERDTreeFind'<CR>
 map <leader>l :TagbarToggle<CR>
 nmap <silent> <leader>/ :nohlsearch<cr>
 
+" Buffer window swapping
+function! MarkWindowSwap()
+    let g:markedWinNum = winnr()
+endfunction
+
+function! DoWindowSwap()
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf 
+endfunction
+nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
+nmap <silent> <leader>pw :call DoWindowSwap()<CR>
+
 " Easier moving in tabs and windows
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
@@ -174,6 +198,9 @@ map <C-H> <C-W>h<C-W>_
 " Move across tabs
 map <S-H> gT
 map <S-L> gt
+
+" Save with CTRL+s / CTRL+SHIFT+s
+map <C-S> :wa<cr>
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
