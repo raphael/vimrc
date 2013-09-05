@@ -141,6 +141,24 @@ autocmd FileType ruby let g:rubycomplete_buffer_loading=1
 autocmd FileType ruby let g:rubycomplete_classes_in_global=1
 autocmd FileType html,markdown,xml setlocal omnifunc=htmlcomplete#CompleteTags
 
+" Switch between absolute and relative numbering on focus and insert
+set number relativenumber
+
+autocmd FocusGained * set number relativenumber
+autocmd WinEnter    * set number relativenumber
+autocmd InsertLeave * set number relativenumber
+autocmd BufNewFile  * set number relativenumber
+autocmd BufReadPost * set number relativenumber
+
+autocmd FocusLost   * set number norelativenumber
+autocmd InsertEnter * set number norelativenumber
+autocmd WinLeave    * set number norelativenumber
+
+" Make ESC work faster
+set ttimeoutlen=10
+autocmd InsertEnter * set timeoutlen=0
+autocmd InsertLeave * set timeoutlen=1000
+
 " For all text files set 'textwidth' to 78 characters.
 autocmd FileType text setlocal textwidth=78
 
@@ -162,8 +180,6 @@ autocmd BufNewFile,BufReadPost *.bundle set filetype=vim
 map Q gq " Don't use Ex mode, use Q for formatting
 map <leader>t :CtrlP<CR>
 map <leader>b :CtrlPBuffer<CR>
-map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
-map <leader>f :execute 'NERDTreeFind'<CR>
 map <leader>l :TagbarToggle<CR>
 nmap <silent> <leader>/ :nohlsearch<cr>
 
@@ -234,4 +250,3 @@ function! StripTrailingWhitespace()
   let @/=_s
   call cursor(l, c)
 endfunction
-
