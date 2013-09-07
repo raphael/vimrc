@@ -20,7 +20,8 @@ colorscheme jellybeans
 if has("gui_gtk2")
   set guifont=Envy\ Code\ R\ for\ Powerline\ 12
 else
-  set guifont=Envy\ Code\ R\ for\ Powerline:h13
+  "set guifont=Envy\ Code\ R\ for\ Powerline:h13
+  set guifont=Pragmata\ TT\ for\ Powerline:h13
 endif
 if has("gui_macvim")
   set transparency=10
