@@ -37,6 +37,7 @@ set synmaxcol=200
 set ttyfast
 set ttyscroll=3
 set lazyredraw " to avoid scrolling problems
+set re=1
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -141,6 +142,9 @@ autocmd FileType ruby set omnifunc=rubycomplete#Complete
 autocmd FileType ruby let g:rubycomplete_buffer_loading=1
 autocmd FileType ruby let g:rubycomplete_classes_in_global=1
 autocmd FileType html,markdown,xml setlocal omnifunc=htmlcomplete#CompleteTags
+
+" Use rbenv for setting up ruby interpreter
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 " Switch between absolute and relative numbering on focus and insert
 set number relativenumber

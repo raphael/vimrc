@@ -170,6 +170,9 @@ if executable('coffeetags')
   \ }
 endif
 
+" Git gutter
+Bundle 'airblade/vim-gitgutter'
+
 " Pick either python-mode or pyflakes & pydoc
 Bundle 'klen/python-mode'
 Bundle 'python.vim'
