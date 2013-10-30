@@ -18,7 +18,14 @@ source ~/.vimrc.bundles
 " Appearance
 colorscheme jellybeans
 if has("gui_gtk2")
-  set guifont=Envy\ Code\ R\ for\ Powerline\ 12
+  set guifont=Droid\ Sans\ Mono\ 6.5
+  set guioptions=ai  "remove menu bar, use text tabs to prevent refresh issues
+  set guioptions-=T  "remove toolbar
+
+  " Friendly copy/paste shortcuts
+  nmap <C-V> "+gP
+  imap <C-V> <ESC><C-V>a
+  vmap <C-C> "+y
 else
   "set guifont=Envy\ Code\ R\ for\ Powerline:h13
   set guifont=Pragmata\ TT\ for\ Powerline:h13
