@@ -30,7 +30,7 @@ let NERDTreeShowBookmarks=0
 let NERDTreeShowHidden=0
 let NERDTreeChDirMode=2 " Keep cwd in sync with tree root
 let NERDTreeQuitOnOpen=0 " Do not close tree after opening a file
-let g:nerdtree_tabs_open_on_gui_startup=1
+let g:nerdtree_tabs_open_on_gui_startup=0
 "map <leader>d :NERDTreeMirrorToggle<CR>
 "map <leader>f :NERDTreeFind<CR>
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
@@ -42,7 +42,7 @@ Bundle 'tpope/vim-surround'
 
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_working_path_mode='ra' " Use parent directory with '.git' file as root (r) or current directory if none (a)
-let g:ctrlp_custom_ignore="/(.log$\|\/public\/|\.(git|hg|svn))"
+let g:ctrlp_custom_ignore="/(.log$\|public\/|\.(git|hg|svn)|ui\/)"
 "let g:ctrlp_user_command = {
 	"\ 'types': {
 		"\ 1: ['.git', 'cd %s && git ls-files'],
@@ -73,6 +73,8 @@ Bundle 'tpope/vim-abolish.git'
 
 " Syntax checking
 Bundle 'scrooloose/syntastic'
+" Make it possible to use 1.9 hash notation ({ a: 1 })
+let g:syntastic_ruby_exec = '~/.rbenv/versions/1.9.3-p392/bin/ruby'
 
 " Commenting
 Bundle 'scrooloose/nerdcommenter'
@@ -187,7 +189,7 @@ Bundle 'briancollins/vim-jst'
 Bundle 'kchmck/vim-coffee-script'
 
 " HTML
-Bundle 'amirh/HTML-AutoCloseTag'
+"Bundle 'amirh/HTML-AutoCloseTag'
 Bundle 'hail2u/vim-css3-syntax'
 
 " Ruby
@@ -197,8 +199,7 @@ let g:rubycomplete_buffer_loading = 1
 "let g:rubycomplete_rails = 1
 
 " GO
-Bundle 'fsouza/go.vim'
-Bundle 'nsf/gocode'
+Bundle 'Blackrush/vim-gocode'
 
 " Node.js
 Bundle 'digitaltoad/vim-jade'

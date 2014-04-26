@@ -101,6 +101,8 @@ set tabstop=2
 set autoindent
 set expandtab " Use spaces instead of tabs
 set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
+set nofoldenable
+set noballooneval
 
 " Search
 set incsearch  " do incremental searching
@@ -137,6 +139,8 @@ autocmd Filetype go set softtabstop=4
 autocmd Filetype go set shiftwidth=4
 autocmd Filetype go set tabstop=4
 autocmd Filetype go set noexpandtab
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+autocmd Filetype go set nolist " Do not hightlight tabs in go or other things in go, gofmt will clean it all up anyway
 
 " Auto-completion
 autocmd FileType python set omnifunc=pythoncomplete#Complete
