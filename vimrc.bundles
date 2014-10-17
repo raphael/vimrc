@@ -19,9 +19,12 @@ elseif executable('ack')
 endif
 
 " Status line
+Bundle 'bling/vim-airline'
+set laststatus=2
+let g:airline_powerline_fonts = 1
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 "Bundle 'Lokaltog/powerline'
-source /usr/local/Cellar/git/1.7.9/lib/Python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
+"source /usr/local/Cellar/git/1.7.9/lib/Python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
 ""python from powerline.bindings.vim import powerline; powerline()
 
 " General

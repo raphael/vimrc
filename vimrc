@@ -24,6 +24,7 @@ if has("gui_gtk2")
 
   " Friendly copy/paste shortcuts
   nmap <C-V> "+gP
+  nmap ,cl :let @*=expand("%:p")<CR>
   imap <C-V> <ESC><C-V>a
   vmap <C-C> "+y
 else
@@ -135,12 +136,12 @@ autocmd BufRead *\.txt map k gk
 autocmd BufRead *\.txt setlocal spell spelllang=en_us
 
 " Use tabs in GO
-autocmd Filetype go set softtabstop=4
-autocmd Filetype go set shiftwidth=4
-autocmd Filetype go set tabstop=4
-autocmd Filetype go set noexpandtab
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
-autocmd Filetype go set nolist " Do not hightlight tabs in go or other things in go, gofmt will clean it all up anyway
+"autocmd Filetype go set softtabstop=4
+"autocmd Filetype go set shiftwidth=4
+"autocmd Filetype go set tabstop=4
+"autocmd Filetype go set noexpandtab
+"autocmd FileType go autocmd BufWritePre <buffer> Fmt
+"autocmd Filetype go set nolist " Do not hightlight tabs in go or other things in go, gofmt will clean it all up anyway
 
 " Auto-completion
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -236,6 +237,9 @@ map <C-S> :wa<cr>
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
+
+" F4 to copy current filename into clipboard
+noremap <silent> <F4> :let @+=expand("%:p")<CR>
 
 " Fix home and end keybindings for screen, particularly on mac
 " - for some reason this fixes the arrow keys too. huh.

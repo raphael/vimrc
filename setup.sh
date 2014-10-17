@@ -28,5 +28,4 @@ export SHELL="/bin/sh"
 vim -u $HOME/.vimrc.bundles +BundleInstall! +BundleClean +qall
 export SHELL=$hell
 
-echo "Note: Powerline requires additional setup: https://github.com/Lokaltog/powerline"
 echo "Note: gocode requires additional setup: https://github.com/nsf/gocode"
