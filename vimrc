@@ -18,7 +18,7 @@ source ~/.vimrc.bundles
 " Appearance
 colorscheme jellybeans
 if has("gui_gtk2")
-  set guifont=Droid\ Sans\ Mono\ 6.5
+  set guifont=PragmataPro\ for\ Powerline\ 13
   set guioptions=ai  "remove menu bar, use text tabs to prevent refresh issues
   set guioptions-=T  "remove toolbar
 
@@ -29,7 +29,7 @@ if has("gui_gtk2")
   vmap <C-C> "+y
 else
   "set guifont=Envy\ Code\ R\ for\ Powerline:h13
-  set guifont=Pragmata\ TT\ for\ Powerline:h13
+  set guifont=PragmataPro\ for\ Powerline:h13
 endif
 if has("gui_macvim")
   set transparency=10
@@ -81,8 +81,8 @@ set listchars=tab:,.,trail:.,extends:#,nbsp:. " Highlight problematic whitespace
 set mouse=a    " Automatically enable mouse usage
 set mousehide  " Hide the mouse cursor while typing
 
-" Show vertical bar after 120 characters
-set colorcolumn=120
+" Show vertical bar after 100 characters
+set colorcolumn=100
 
 " Save backups to a less annoying place than the current directory.
 set backupdir=~/.vim/backup//
@@ -135,28 +135,13 @@ autocmd BufRead *\.txt map j gj
 autocmd BufRead *\.txt map k gk
 autocmd BufRead *\.txt setlocal spell spelllang=en_us
 
-" Use tabs in GO
-"autocmd Filetype go set softtabstop=4
-"autocmd Filetype go set shiftwidth=4
-"autocmd Filetype go set tabstop=4
-"autocmd Filetype go set noexpandtab
-"autocmd FileType go autocmd BufWritePre <buffer> Fmt
-"autocmd Filetype go set nolist " Do not hightlight tabs in go or other things in go, gofmt will clean it all up anyway
-
 " Auto-completion
 autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType ruby set omnifunc=rubycomplete#Complete
-autocmd FileType ruby let g:rubycomplete_buffer_loading=1
-autocmd FileType ruby let g:rubycomplete_classes_in_global=1
 autocmd FileType html,markdown,xml setlocal omnifunc=htmlcomplete#CompleteTags
-
-" Use rbenv for setting up ruby interpreter
-let g:ruby_path = system('echo $HOME/.rbenv/shims')
 
 " Switch between absolute and relative numbering on focus and insert
 set number relativenumber

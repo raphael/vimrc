@@ -66,6 +66,9 @@ Bundle 'godlygeek/csapprox'
 Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'flazz/vim-colorschemes'
 
+" Slim
+Bundle 'slim-template/slim'
+
 Bundle 'mbbill/undotree'
 nnoremap <Leader>u :UndotreeToggle<CR>
 let g:undotree_SetFocusWhenToggle=1
@@ -76,8 +79,6 @@ Bundle 'tpope/vim-abolish.git'
 
 " Syntax checking
 Bundle 'scrooloose/syntastic'
-" Make it possible to use 1.9 hash notation ({ a: 1 })
-let g:syntastic_ruby_exec = '~/.rbenv/versions/1.9.3-p392/bin/ruby'
 
 " Commenting
 Bundle 'scrooloose/nerdcommenter'
@@ -196,18 +197,30 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle 'hail2u/vim-css3-syntax'
 
 " Ruby
-Bundle 'tpope/vim-rails'
-let g:rubycomplete_buffer_loading = 1
-"let g:rubycomplete_classes_in_global = 1
-"let g:rubycomplete_rails = 1
+let g:ruby_path = system('echo $HOME/.rbenv/shims')
+Bundle 'vim-ruby/vim-ruby'
+autocmd FileType ruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+autocmd FileType ruby let g:rubycomplete_classes_in_global=1
+
+" rbenv
+Bundle 'tpope/vim-rbenv'
 
 " GO
 Bundle 'Blackrush/vim-gocode'
+
+" Use tabs in GO
+autocmd Filetype go set softtabstop=8
+autocmd Filetype go set shiftwidth=8
+autocmd Filetype go set tabstop=8
+autocmd Filetype go set noexpandtab
+autocmd Filetype go set nolist " Do not hightlight tabs in go or other things in go, gofmt will clean it all up anyway
 
 " Node.js
 Bundle 'digitaltoad/vim-jade'
 Bundle 'myhere/vim-nodejs-complete'
 Bundle 'guileen/vim-node'
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
 " Tabularize
 Bundle 'godlygeek/tabular'
