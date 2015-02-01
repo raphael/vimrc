@@ -28,8 +28,8 @@ if has("gui_gtk2")
   imap <C-V> <ESC><C-V>a
   vmap <C-C> "+y
 else
-  "set guifont=Envy\ Code\ R\ for\ Powerline:h13
-  set guifont=PragmataPro\ for\ Powerline:h13
+  "set guifont=Envy\ Code\ R\ for\ Powerline:h14
+  set guifont=PragmataPro\ for\ Powerline:h14
 endif
 if has("gui_macvim")
   set transparency=10
@@ -55,6 +55,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 " Editor behavior
+set autoread
 set smartindent
 set backupdir=~/.vimswaps,/tmp
 set backspace=indent,eol,start " allow backspacing over everything in insert mode

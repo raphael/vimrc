@@ -11,12 +11,15 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
-if executable('ack-grep')
-  let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-  Bundle 'mileszs/ack.vim'
-elseif executable('ack')
-  Bundle 'mileszs/ack.vim'
-endif
+"if executable('ack-grep')
+  "let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+  "Bundle 'mileszs/ack.vim'
+"elseif executable('ack')
+  "Bundle 'mileszs/ack.vim'
+"endif
+
+" the silver searcher
+Plugin 'rking/ag.vim'
 
 " Status line
 Bundle 'bling/vim-airline'
@@ -206,8 +209,8 @@ autocmd FileType ruby let g:rubycomplete_classes_in_global=1
 " rbenv
 Bundle 'tpope/vim-rbenv'
 
-" GO
-Bundle 'Blackrush/vim-gocode'
+" GO - golang
+Bundle 'fatih/vim-go'
 
 " Use tabs in GO
 autocmd Filetype go set softtabstop=8
