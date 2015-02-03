@@ -104,7 +104,10 @@ set autoindent
 set expandtab " Use spaces instead of tabs
 set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
 set nofoldenable
+
+" Disable hover tooltips
 set noballooneval
+let g:netrw_nobeval = 1
 
 " Search
 set incsearch  " do incremental searching
