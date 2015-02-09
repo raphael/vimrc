@@ -140,6 +140,7 @@ autocmd BufRead *\.txt map k gk
 autocmd BufRead *\.txt setlocal spell spelllang=en_us
 
 " Auto-completion
+set completeopt-=preview " Remove annoying scratch window on completion
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
