@@ -22,13 +22,17 @@ Bundle 'tomtom/tlib_vim'
 Plugin 'rking/ag.vim'
 
 " Status line
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
 Bundle 'bling/vim-airline'
 set laststatus=2
-let g:airline_powerline_fonts = 1
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
-"Bundle 'Lokaltog/powerline'
-"source /usr/local/Cellar/git/1.7.9/lib/Python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
-""python from powerline.bindings.vim import powerline; powerline()
+if $XDG_SESSION_ID==""
+  let g:airline_powerline_fonts = 1
+endif
+"let g:airline_symbols.space = "\ua0"
+let g:airline_symbols.space = "\u3000"
 
 " General
 Bundle 'scrooloose/nerdtree'

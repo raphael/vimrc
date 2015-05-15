@@ -16,20 +16,25 @@ let mapleader=","
 source ~/.vimrc.bundles
 
 " Appearance
-colorscheme jellybeans
+set background=dark
+colorscheme lucius
 if has("gui_gtk2")
-  set guifont=PragmataPro\ for\ Powerline\ 13
+  if $XMETHOD == "xiwi-window"
+    set guifont=PragmataPro\ 20
+  else
+    set guifont=PragmataPro\ 11
+  endif
   set guioptions=ai  "remove menu bar, use text tabs to prevent refresh issues
   set guioptions-=T  "remove toolbar
 
   " Friendly copy/paste shortcuts
-  nmap <C-V> "+gP
-  nmap ,cl :let @*=expand("%:p")<CR>
-  imap <C-V> <ESC><C-V>a
-  vmap <C-C> "+y
+  inoremap <C-v> <F12><C-r>+<F12>
+  vnoremap <C-c> "+y
+  set clipboard=unnamedplus
+  " Copy file name
+  nmap ,cl :let @*=expand("%:p")<CR> 
 else
-  "set guifont=Envy\ Code\ R\ for\ Powerline:h14
-  set guifont=PragmataPro\ for\ Powerline:h14
+  set guifont=PragmataPro:h14
 endif
 if has("gui_macvim")
   set transparency=10
@@ -55,6 +60,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 " Editor behavior
+set linespace=0
 set autoread
 set smartindent
 set backupdir=~/.vimswaps,/tmp
@@ -224,6 +230,7 @@ map <S-L> gt
 
 " Save with CTRL+s / CTRL+SHIFT+s
 map <C-S> :wa<cr>
+
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
