@@ -2,55 +2,24 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Setup Bundle Support {
-" The next three lines ensure that the ~/.vim/bundle/ system works
-filetype on
-filetype off
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
-
-" So mapping in bundles file are set correctly
+" So mapping in plugins are set correctly
 let mapleader=","
 
-" Bundles
-source ~/.vimrc.bundles
+" Use system clipboard
+set clipboard+=unnamedplus
+
+" Plugins
+source ~/.config/nvim/plugins.vim
 
 " Appearance
 set background=dark
-colorscheme lucius
-if has("gui_gtk2")
-  if $XMETHOD == "xiwi-window"
-    set guifont=PragmataPro\ 20
-  else
-    set guifont=PragmataPro\ 11
-  endif
-  set guioptions=ai  "remove menu bar, use text tabs to prevent refresh issues
-  set guioptions-=T  "remove toolbar
-
-  " Friendly copy/paste shortcuts
-  inoremap <C-v> <F12><C-r>+<F12>
-  vnoremap <C-c> "+y
-  set clipboard=unnamedplus
-  " Copy file name
-  nmap ,cl :let @*=expand("%:p")<CR> 
-else
-  set guifont=PragmataPro:h14
-endif
-if has("gui_macvim")
-  set transparency=10
-endif
+colorscheme gruvbox
 set guioptions-=T " turns off toolbar
 set vb " turns off visual bell
 set noerrorbells " don't make noise
 
 " Prevent slow scrolling of long lines
-set synmaxcol=200
-
-" Speed up vim
-set ttyfast
-set ttyscroll=3
-set lazyredraw " to avoid scrolling problems
-set re=1
+set synmaxcol=400
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -59,11 +28,16 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+" TMUX integration
+autocmd BufEnter * call system("tmux rename-window " . expand("%:t"))
+autocmd VimLeave * call system("tmux setw automatic-rename")
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+set title
+
 " Editor behavior
 set linespace=0
 set autoread
 set smartindent
-set backupdir=~/.vimswaps,/tmp
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=1000 " keep 1000 lines of command line history
 set ruler      " show the cursor position all the time
@@ -91,29 +65,19 @@ set mousehide  " Hide the mouse cursor while typing
 " Show vertical bar after 100 characters
 set colorcolumn=100
 
-" Save backups to a less annoying place than the current directory.
-set backupdir=~/.vim/backup//
-set backup
-
-" Save swp files to a less annoying place than the current directory.
-set directory=~/.vim/swap//
-
-" Create the directories if needed
-silent !mkdir -p ~/.vim/swap ~/.vim/backup ~/.vim/undo
+" No backup and no swap
+set nobackup
+set noswapfile
 
 " Formatting
 set nowrap " Do not wrap long lines
-set softtabstop=2
-set shiftwidth=2
-set tabstop=2
+set softtabstop=4
+set shiftwidth=4
+set tabstop=4
 set autoindent
 set expandtab " Use spaces instead of tabs
 set pastetoggle=<F12> " pastetoggle (sane indentation on pastes)
 set nofoldenable
-
-" Disable hover tooltips
-set noballooneval
-let g:netrw_nobeval = 1
 
 " Search
 set incsearch  " do incremental searching
@@ -172,6 +136,7 @@ set ttimeoutlen=10
 autocmd InsertEnter * set timeoutlen=0
 autocmd InsertLeave * set timeoutlen=1000
 
+set tw=100
 " For all text files set 'textwidth' to 78 characters.
 autocmd FileType text setlocal textwidth=78
 
@@ -196,28 +161,6 @@ map <leader>b :CtrlPBuffer<CR>
 map <leader>l :TagbarToggle<CR>
 nmap <silent> <leader>/ :nohlsearch<cr>
 
-" Buffer window swapping
-function! MarkWindowSwap()
-    let g:markedWinNum = winnr()
-endfunction
-
-function! DoWindowSwap()
-    "Mark destination
-    let curNum = winnr()
-    let curBuf = bufnr( "%" )
-    exe g:markedWinNum . "wincmd w"
-    "Switch to source and shuffle dest->source
-    let markedBuf = bufnr( "%" )
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' curBuf
-    "Switch to dest and shuffle source->dest
-    exe curNum . "wincmd w"
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf 
-endfunction
-nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
-nmap <silent> <leader>pw :call DoWindowSwap()<CR>
-
 " Easier moving in tabs and windows
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
@@ -238,13 +181,6 @@ nnoremap Y y$
 " F4 to copy current filename into clipboard
 noremap <silent> <F4> :let @+=expand("%:p")<CR>
 
-" Fix home and end keybindings for screen, particularly on mac
-" - for some reason this fixes the arrow keys too. huh.
-map [F $
-imap [F $
-map [H g0
-imap [H g0
-
 " Map <Leader>ff to display all lines with keyword under cursor
 " and ask which one to jump to
 nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
@@ -253,17 +189,3 @@ nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<C
 cnoreabbrev <expr> w!!
   \((getcmdtype() == ':' && getcmdline() == 'w!!')
   \?('!sudo tee % >/dev/null'):('w!!'))
-
-" Enable omni completion.
-" Strip whitespace
-function! StripTrailingWhitespace()
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " do the business:
-  %s/\s\+$//e
-  " clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
-endfunction

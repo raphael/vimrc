@@ -1,8 +1,10 @@
 #!/bin/bash
 
-echo "Backing up existing vim config"
+${XDG_CONFIG_HOME:=$HOME/.config}
+echo "Backing up existing neovim config"
 today=`date +%Y%m%d`
-for i in $HOME/.vim $HOME/.vimrc $HOME/.vimrc.bundles; do [ -e $i ] && [ ! -L $i ] && mv $i $i.$today; done
+nvim="${XDG_CONFIG_HOME}/nvim"
+[ -e $nvim ] && [ ! -L $nvim ] && mv $nvim $nvim.$today
 
 echo "Creating symlinks"
 lnif() {
@@ -13,19 +15,10 @@ lnif() {
     ln -sf $1 $2
   fi
 }
-lnif $PWD/vimrc $HOME/.vimrc
-lnif $PWD/vimrc.bundles $HOME/.vimrc.bundles
+lnif $PWD $nvim
 
-echo "Installing Vundle and bundles"
-if [ ! -e $HOME/.vim/bundle/vundle ]; then
-  mkdir -p $HOME/.vim/bundle
-  git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
-else
-  cd $HOME/.vim/bundle/vundle && git pull
-fi
-hell=$SHELL
-export SHELL="/bin/sh"
-vim -u $HOME/.vimrc.bundles +BundleInstall! +BundleClean +qall
-export SHELL=$hell
+echo "Installing vim-plug"
+curl -fLo ${nvim}/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-echo "Note: gocode requires additional setup: https://github.com/nsf/gocode"
+nvim -u . +PlugInstall +qall
