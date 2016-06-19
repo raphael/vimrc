@@ -14,6 +14,7 @@ source ~/.config/nvim/plugins.vim
 " Appearance
 set background=dark
 colorscheme gruvbox
+"colorscheme monochrome
 set guioptions-=T " turns off toolbar
 set vb " turns off visual bell
 set noerrorbells " don't make noise
@@ -189,3 +190,16 @@ nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<C
 cnoreabbrev <expr> w!!
   \((getcmdtype() == ':' && getcmdline() == 'w!!')
   \?('!sudo tee % >/dev/null'):('w!!'))
+
+" Strip whitespace
+function! StripTrailingWhitespace()
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " do the business:
+  %s/\s\+$//e
+  " clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
