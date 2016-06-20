@@ -110,6 +110,9 @@ autocmd BufRead *\.txt map j gj
 autocmd BufRead *\.txt map k gk
 autocmd BufRead *\.txt setlocal spell spelllang=en_us
 
+" Use old / fast regular expression engine
+set re=1
+
 " Auto-completion
 set completeopt-=preview " Remove annoying scratch window on completion
 autocmd FileType python set omnifunc=pythoncomplete#Complete
