@@ -14,6 +14,15 @@ Plug 'vim-airline/vim-airline'
 " Theme
 let g:gruvbox_italic=1
 Plug 'morhetz/gruvbox'
+"Plug 'fxn/vim-monochrome'
+
+" Snippets
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+imap <expr> <C-E> pumvisible() ? '<esc>a<Plug>snipMateNextOrTrigger' : '<Plug>snipMateNextOrTrigger'
+
+Plug 'honza/vim-snippets'
 
 " General
 Plug 'scrooloose/nerdtree'
@@ -96,7 +105,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'leafgarland/typescript-vim'
 Plug 'leshill/vim-json'
 Plug 'groenewege/vim-less'
-Plug 'pangloss/vim-javascript'
+"Plug 'pangloss/vim-javascript'
 
 " Ruby
 let g:ruby_path = system('echo $HOME/.rbenv/shims')
@@ -142,7 +151,7 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 "let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
-let g:go_list_type = "quickfix"
+"let g:go_list_type = "quickfix"
 
 " Present
 Plug 'raphael/vim-present-simple'
@@ -164,13 +173,15 @@ au FileType go nmap <leader>gr <Plug>(go-referrers)
 au FileType go nmap <leader>gb <Plug>(go-build)
 au FileType go nmap <leader>gt <Plug>(go-test)
 au FileType go nmap <leader>gc <Plug>(go-coverage)
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+"au FileType go nmap <Leader>ds <Plug>(go-def-split)
+"au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+"au FileType go nmap <Leader>dt <Plug>(go-def-tab)
 au FileType go nmap <Leader>e <Plug>(go-rename)
 
 " Misc
 Plug 'tpope/vim-markdown'
 Plug 'mhinz/vim-startify'
+
+"Plug 'sourcegraph/sourcegraph-vim'
 
 call plug#end()

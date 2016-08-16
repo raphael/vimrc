@@ -1,0 +1,104 @@
+snippet pac
+	package design
+
+	import . "github.com/goadesign/goa/design"
+	import . "github.com/goadesign/goa/design/apidsl"
+	
+	
+
+snippet API
+	var _ = API("cellar", func() {
+		Description("The wine review service")
+		Host("localhost:8080")
+		Scheme("http")
+		BasePath("/cellar")
+	})
+	
+	
+
+snippet Res
+	var _ = Resource("bottle", func() {
+		Description("A wine bottle")
+		BasePath("/bottles")
+	
+
+snippet cre
+		Action("create", func() {
+			Description("creates a bottle")
+			Routing(POST("/"))
+			Payload(CreatePayload)
+			Response(Created)
+		})
+	
+
+snippet sho
+		Action("show", func() {
+			Description("shows a bottle")
+			Routing(GET("/:id"))
+			Params(func() {
+				Param("id", Integer)
+			})
+			Response(OK, BottleMedia)
+		})
+	})
+	
+	
+
+snippet Cre
+	var CreatePayload = Type("CreatePayload", func() {
+		Attribute("name", String, "Name of bottle", func() {
+			MinLength(1)
+		})
+		Attribute("vintage", Integer, "Vintage of bottle", func() {
+			Minimum(1900)
+		})
+		Required("name", "vintage")
+	})
+	
+	
+
+snippet Bot
+	var BottleMedia = MediaType("application/vnd.gophercon.goa.bottle", func() {
+		TypeName("bottle")
+		Reference(CreatePayload)
+	
+
+snippet Att
+		Attributes(func() {
+			Attribute("ID", Integer, "Unique bottle ID")
+			Attribute("name")
+			Attribute("vintage")
+			Required("ID", "name", "vintage")
+		})
+	
+
+snippet Vie
+		View("default", func() {
+			Attribute("ID")
+			Attribute("name")
+			Attribute("vintage")
+		})
+	})
+	
+
+snippet ID:
+		ID:      1,
+		Name:    "No. 8",
+		Vintage: 2013,
+
+snippet Swa:
+	var _ = Resource("Swagger", func() {
+		Files("/swagger.json", "swagger/swagger.json")
+
+		Origin("*", func() {
+			Methods("GET")
+		})
+	})
+	
+
+snippet Mou:
+	// Mount "Swagger" controller
+	cs := NewSwaggerController(service)
+	app.MountSwaggerController(service, cs)
+	
+

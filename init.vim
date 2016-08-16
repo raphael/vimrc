@@ -187,7 +187,7 @@ noremap <silent> <F4> :let @+=expand("%:p")<CR>
 
 " Map <Leader>ff to display all lines with keyword under cursor
 " and ask which one to jump to
-nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+"nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
 
 " Force saving when needing to sudo first"
 cnoreabbrev <expr> w!!
